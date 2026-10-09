@@ -515,6 +515,7 @@ describe("Ghidra native decompiler admission", () => {
     {
       name: "a Linux x86-64 decompiler at the macOS arm64 path",
       options: {
+        environment: {},
         installDir: INSTALL,
         platform: "darwin" as const,
         architecture: "arm64" as const,
@@ -527,6 +528,7 @@ describe("Ghidra native decompiler admission", () => {
     {
       name: "a macOS arm64 decompiler at the Linux x64 path",
       options: {
+        environment: {},
         installDir: INSTALL,
         platform: "linux" as const,
         architecture: "x64" as const,
@@ -549,7 +551,12 @@ describe("Ghidra native decompiler admission", () => {
 
   it("explains an accepted decompiler by its header, not only its path", () => {
     const result = inspectGhidraInstallation(
-      { installDir: INSTALL, platform: "linux", architecture: "x64" },
+      {
+        environment: {},
+        installDir: INSTALL,
+        platform: "linux",
+        architecture: "x64",
+      },
       host({
         executableHeader: (path: string) =>
           path === LINUX_DECOMPILER
@@ -569,7 +576,12 @@ describe("Ghidra native decompiler admission", () => {
 
   it("keeps an unreadable header unknown instead of failing the install", () => {
     const result = inspectGhidraInstallation(
-      { installDir: INSTALL, platform: "linux", architecture: "x64" },
+      {
+        environment: {},
+        installDir: INSTALL,
+        platform: "linux",
+        architecture: "x64",
+      },
       host({ executableHeader: () => undefined }),
     );
     expect(result.status).toBe("available");
@@ -584,7 +596,12 @@ describe("Ghidra native decompiler admission", () => {
 
   it("names the observed and the required executable in the failure", () => {
     const result = inspectGhidraInstallation(
-      { installDir: INSTALL, platform: "darwin", architecture: "arm64" },
+      {
+        environment: {},
+        installDir: INSTALL,
+        platform: "darwin",
+        architecture: "arm64",
+      },
       host({
         executableHeader: (path: string) =>
           path === MAC_DECOMPILER
