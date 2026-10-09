@@ -406,6 +406,13 @@ Closing or switching a target closes its bound Hopper document, shuts down REA's
 bridge and removes its temporary socket directory while preserving the Hopper
 application and unrelated documents. A `cleanup_incomplete`
 result identifies resources whose cleanup could not be verified.
+REA retains unresolved cleanup ownership and any confirmed shutdown phases.
+After addressing the reported failure, retry `close_binary` on the same
+connection; a failed close does not release ownership or authorize a fresh launch.
+An unconfirmed external document can be retried while its authenticated bridge
+remains connected. If that bridge has disconnected, another close cannot confirm
+the document: inspect and close the reported document in Hopper before ending
+the owning REA connection.
 
 ### Hopper in CI
 
